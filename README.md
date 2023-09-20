@@ -1,7 +1,7 @@
 <h1> C Data Structure and Algorithm </h1>
 <h2> 0x1B. C - Sorting algorithms & Big O </h2>
 <br>
-<div style="font-size: 20px">
+<div style="font-size: 50px">
 <h3> Requirements </h3>
 <hr>
 <br>

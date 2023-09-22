@@ -6,6 +6,7 @@ insertion_sort(list):
         if list is not NULL:
             list->prev = NULL
         sorted_insert(temp, sorted)
+        rejoin(sorted, list)
 
 sorted_insert(temp, sorted):
     temp->next = NULL
@@ -13,19 +14,31 @@ sorted_insert(temp, sorted):
     if sorted is NULL:
         sorted = temp
         return sorted
-    let container = sorted
-    for container is not NULL:
-        if container.n > temp:
-            swap(container, temp)
+    let tail = sorted
+    for tail is not NULL:
+        if tail->n > temp:
+            swap(tail, temp)
         else:
-            container->next = temp
-            temp->prev = container
+            tail->next = temp
+            temp->prev = tail
+        tail = tail->prev
     return sorted
 
-swap(container, temp):
-    if container->prev is not NULL:
-        container->prev->next = temp
-    temp->prev = container->prev;
-    container->prev = temp
-    temp->next = container
-    container->next = NULL
+swap(tail, temp):
+    if tail->prev is not NULL:
+        tail->prev->next = temp
+    temp->prev = tail->prev;
+    tail->prev = temp
+    temp->next = tail
+
+rejoin(sorted, list):
+    declare temp
+    if sorted is NULL:
+        return list
+    if list is NULL:
+        return sorted
+    while sorted is not NULL:
+        temp = sorted
+        sorted = sorted->next
+    temp->next = list
+    list->prev =temp

@@ -67,10 +67,11 @@ listint_t *sorted_insert(listint_t *temp, listint_t **head)
 
 	/*If tail is NULL meaning temp holds the smallest value*/
 	/*And should be inserted at start*/
-	if (tail == NULL)
+	if (!tail)
 	{
 		temp->next = current;
 		current->prev = temp;
+		*head = temp;
 		/*If there's a new start of list return start*/
 		/*Otherwise NULL*/
 		return (temp);
@@ -100,6 +101,6 @@ void insertion_sort_list(listint_t **list)
 		head = head->next;
 		store = sorted_insert(temp, &sorted);
 		sorted = (store) ? store : sorted;
-		print_list(rejoin(head, sorted));
+		/*print_list(rejoin(head, sorted));*/
 	}
 }

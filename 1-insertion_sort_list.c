@@ -1,106 +1,83 @@
 #include "sort.h"
 
-listint_t *rejoin(listint_t *list, listint_t *sorted);
-listint_t *sorted_insert(listint_t *temp, listint_t **head);
-void insertion_sort(listint_t **list);
-
 /**
- * rejoin - joins a sorted half of a list to the other
- * half
- * @list: unsorted half
- * @sorted: sorted half
- * Return: a pointer to start of the new list
+ * swap - swaps a node with the next node
+ * @store: node to swap with
+ * @ptr: node to swap
+ * @list: pointer to list
  */
-listint_t *rejoin(listint_t *list, listint_t *sorted)
+void swap(listint_t **store, listint_t **ptr, listint_t **list)
 {
-	listint_t *temp = sorted;
+	listint_t *_store = *store, *_ptr = *ptr;
 
-	if (!sorted)
-		return (list);
-	if (!list)
-		return (sorted);
-
-	while (sorted->next)
-	{
-		print_list(sorted);
-		sorted = sorted->next;
-	}
-	sorted->next = list;
-	list->prev = sorted;
-	return (temp);
+	if (_store->prev)
+		_store->prev->next = _ptr;
+	if (_ptr->next)
+		_ptr->next->prev = _store;
+	_store->next = _ptr->next;
+	_ptr->prev = _store->prev;
+	_store->prev = _ptr;
+	_ptr->next = _store;
+	if (_ptr->prev == NULL)
+		*list = _ptr;
 }
 
 /**
- * sorted_insert - inserts a node in a sorted list in the right other
- * @temp: new node to insert
- * @head: pointer to head of sorted list
- * Return: New head of the sorted list
+ * swap_prev - swaps a node with the previous
+ * @store: node to swap with
+ * @temp: node to swap
+ * @list: pointer to list
  */
-listint_t *sorted_insert(listint_t *temp, listint_t **head)
+void swap_prev(listint_t **store, listint_t **temp, listint_t **list)
 {
-	listint_t *tail, *current;
+	listint_t *_temp = *temp, *_store = *store;
 
-	if (!head || !temp)
-		return (NULL);
-	temp->prev = NULL;
-	temp->next = NULL;
-
-	tail = *head;
-	while (tail->next)
-		tail = tail->next;
-	while (tail)
-	{
-		if (temp->n >= tail->n)
-		{
-			temp->prev = tail;
-			temp->next = tail->next;
-			if (tail->next)
-				tail->next->prev = temp;
-			else
-				temp->next = NULL;
-			tail->next = temp;
-			break;
-		}
-		current = tail;
-		tail = tail->prev;
-	}
-
-	/*If tail is NULL meaning temp holds the smallest value*/
-	/*And should be inserted at start*/
-	if (!tail)
-	{
-		temp->next = current;
-		current->prev = temp;
-		*head = temp;
-		/*If there's a new start of list return start*/
-		/*Otherwise NULL*/
-		return (temp);
-	} return (NULL);
+	if (_temp->prev)
+		_temp->prev->next = _store;
+	if (_store->next)
+		_store->next->prev = _temp;
+	_temp->next = _store->next;
+	_store->next = _temp;
+	_store->prev = _temp->prev;
+	_temp->prev = _store;
+	if (_store->prev == NULL)
+		*list = _store;
 }
 
 /**
- * insertion_sort_list - implements insertion sort
- * and print the state of the list after each swap
- * @list: list to sort
+ * insertion_sort_list - sorts a doubly linked list of integers in
+ * ascending order using the Insertion sort algorithm
+ * @list: doubly linked list
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *sorted, *temp, *head, *store;
+	listint_t *ptr = *list, *temp, *store;
 
-	if (!list || !(*list) || !(*list)->next)
+	if (*list == NULL || !(*list)->next)
 		return;
-	/*Assign first element to a the sorted half*/
-	sorted = (*list);
-	head = (*list)->next;
-	sorted->next = NULL;
-	sorted->prev = NULL;
-
-	while (head)
+	while (ptr)
 	{
-		temp = head;
-		head = head->next;
-		store = sorted_insert(temp, &sorted);
-		sorted = (store) ? store : sorted;
-		/*print_list(rejoin(head, sorted));*/
+		if (ptr->next && ptr->next->n < ptr->n)
+		{
+			store = ptr;
+			ptr = ptr->next;
+			swap(&store, &ptr, list);
+			temp = ptr;
+			print_list(*list);
+			while (temp)
+			{
+				if (temp->prev && temp->n < temp->prev->n)
+				{
+					store = temp;
+					temp = temp->prev;
+					swap_prev(&store, &temp, list);
+					print_list(*list);
+				}
+				else
+					break;
+				temp = temp->prev;
+			}
+		}
+		ptr = ptr->next;
 	}
 }

@@ -34,5 +34,7 @@ void selection_sort(int *array, size_t size);
 void quick_sort(int *array, size_t size);
 int partition(int *array, int start, int end, size_t size);
 void sorter(int *array, int start, int end, size_t size);
+void swap(listint_t **store, listint_t **ptr, listint_t **list);
+void swap_prev(listint_t **store, listint_t **temp, listint_t **list);
 
 #endif /*_SORT_H_*/

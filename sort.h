@@ -31,5 +31,7 @@ void insertion_sort_list(listint_t **list);
 listint_t *rejoin(listint_t *list, listint_t *sorted);
 listint_t *sorted_insert(listint_t *temp, listint_t **head);
 void selection_sort(int *array, size_t size);
+void swap(listint_t **store, listint_t **ptr, listint_t **list);
+void swap_prev(listint_t **store, listint_t **temp, listint_t **list);
 
 #endif /*_SORT_H_*/

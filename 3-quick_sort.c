@@ -1,8 +1,8 @@
 #include "sort.h"
 
 void quick_sort(int *array, size_t size);
-int partition(int *array, int start, int end);
-void sorter(int *array, int start, int end, int size);
+int partition(int *array, int start, int end, size_t size);
+void sorter(int *array, int start, int end, size_t size);
 
 /**
  * partition - partitions the array such that the pivot
@@ -10,13 +10,15 @@ void sorter(int *array, int start, int end, int size);
  * @array: array to partition
  * @start: starting point of array or sub array
  * @end: end of array
+ * @size: size of array `for printing'
  * Return: the new pivot
  */
-int partition(int *array, int start, int end)
+int partition(int *array, int start, int end, size_t size)
 {
 	int i = start - 1;
 	int j, temp;
 
+	(void)size;
 	for (j = start; j < end; j++)
 	{
 		if (array[j] < array[end])
@@ -24,6 +26,7 @@ int partition(int *array, int start, int end)
 			temp = array[++i];
 			array[i] = array[j];
 			array[j] = temp;
+			/*print_array(array, size);*/
 		}
 	}
 	temp = array[++i];
@@ -40,13 +43,13 @@ int partition(int *array, int start, int end)
  * @end: end of array or subarray to sort
  * @size: size of array
  */
-void sorter(int *array, int start, int end, int size)
+void sorter(int *array, int start, int end, size_t size)
 {
 	int pivot;
 
 	if (end <= start)
 		return;
-	pivot = partition(array, start, end);
+	pivot = partition(array, start, end, size);
 	print_array(array, size);
 	/*Sort left half*/
 	sorter(array, start, pivot - 1, size);

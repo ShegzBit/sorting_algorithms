@@ -32,7 +32,7 @@ listint_t *rejoin(listint_t *list, listint_t *sorted);
 listint_t *sorted_insert(listint_t *temp, listint_t **head);
 void selection_sort(int *array, size_t size);
 void quick_sort(int *array, size_t size);
-int partition(int *array, int start, int end);
-void sorter(int *array, int start, int end, int size);
+int partition(int *array, int start, int end, size_t size);
+void sorter(int *array, int start, int end, size_t size);
 
 #endif /*_SORT_H_*/

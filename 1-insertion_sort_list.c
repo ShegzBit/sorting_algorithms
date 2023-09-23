@@ -53,7 +53,7 @@ void insertion_sort_list(listint_t **list)
 {
 	listint_t *ptr = *list, *temp, *store;
 
-	if (*list == NULL)
+	if (*list == NULL || !(*list)->next)
 		return;
 	while (ptr)
 	{

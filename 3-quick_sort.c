@@ -21,17 +21,25 @@ int partition(int *array, int start, int end, size_t size)
 	(void)size;
 	for (j = start; j < end; j++)
 	{
+		/*array end last element is always the pivot*/
 		if (array[j] < array[end])
 		{
-			temp = array[++i];
-			array[i] = array[j];
-			array[j] = temp;
-			print_array(array, size);
+			if (array[i] != array[j])
+			{
+				temp = array[++i];
+				array[i] = array[j];
+				array[j] = temp;
+				print_array(array, size);
+			}
 		}
 	}
-	temp = array[++i];
-	array[i] = array[end];
-	array[end] = temp;
+	if (array[++i] != array[end])
+	{
+		temp = array[i];
+		array[i] = array[end];
+		array[end] = temp;
+		print_array(array, size);
+	}
 	return (i);
 }
 
@@ -50,7 +58,6 @@ void sorter(int *array, int start, int end, size_t size)
 	if (end <= start)
 		return;
 	pivot = partition(array, start, end, size);
-	print_array(array, size);
 	/*Sort left half*/
 	sorter(array, start, pivot - 1, size);
 	/*Sort right half*/

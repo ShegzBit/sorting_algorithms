@@ -39,5 +39,6 @@ void swap_prev(listint_t **store, listint_t **temp, listint_t **list);
 void shell_sort(int *array, size_t size);
 size_t knuth_seq(size_t size);
 void swap_int(int *a, int *b);
+void counting_sort(int *array, size_t size);
 
 #endif /*_SORT_H_*/

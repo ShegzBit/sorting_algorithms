@@ -36,5 +36,8 @@ int partition(int *array, int start, int end, size_t size);
 void sorter(int *array, int start, int end, size_t size);
 void swap(listint_t **store, listint_t **ptr, listint_t **list);
 void swap_prev(listint_t **store, listint_t **temp, listint_t **list);
+void shell_sort(int *array, size_t size);
+size_t knuth_seq(size_t size);
+void swap_int(int *a, int *b);
 
 #endif /*_SORT_H_*/

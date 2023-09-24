@@ -24,22 +24,15 @@ int partition(int *array, int start, int end, size_t size)
 		/*array end last element is always the pivot*/
 		if (array[j] < array[end])
 		{
-			if (array[i] != array[j])
-			{
-				temp = array[++i];
-				array[i] = array[j];
-				array[j] = temp;
-				print_array(array, size);
-			}
+			temp = array[++i];
+			array[i] = array[j];
+			array[j] = temp;
 		}
 	}
-	if (array[++i] != array[end])
-	{
-		temp = array[i];
-		array[i] = array[end];
-		array[end] = temp;
-		print_array(array, size);
-	}
+	temp = array[++i];
+	array[i] = array[end];
+	array[end] = temp;
+	print_array(array, size);
 	return (i);
 }
 

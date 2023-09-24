@@ -40,7 +40,8 @@ void shell_sort(int *array, size_t size);
 size_t knuth_seq(size_t size);
 void swap_int(int *a, int *b);
 void cocktail_sort_list(listint_t **list);
-void swap_node(listint_t **_nodea, listint_t **_nodeb);
+void swap_node(listint_t **_nodea, listint_t **_nodeb,
+		listint_t **list);
 void counting_sort(int *array, size_t size);
 
 #endif /*_SORT_H_*/

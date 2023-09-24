@@ -1,7 +1,8 @@
 #include "sort.h"
 
 void cocktail_sort_list(listint_t **list);
-void swap_node(listint_t **_nodea, listint_t **_nodeb);
+void swap_node(listint_t **_nodea, listint_t **_nodeb,
+		listint_t **list);
 
 
 /**
@@ -9,8 +10,10 @@ void swap_node(listint_t **_nodea, listint_t **_nodeb);
  * linked list
  * @_nodea: node to push to back
  * @_nodeb: node to push to front
+ * @list: list to sort
  */
-void swap_node(listint_t **_nodea, listint_t **_nodeb)
+void swap_node(listint_t **_nodea, listint_t **_nodeb,
+		listint_t **list)
 {
 	listint_t *node_a, *node_b, *temp1, *temp2;
 
@@ -30,15 +33,58 @@ void swap_node(listint_t **_nodea, listint_t **_nodeb)
 
 	if (temp1)
 		temp1->next = node_b;
+	else
+		*list = node_b;
 	if (temp2)
 		temp2->prev = node_a;
 }
 
 
 /**
- * cocktail_sort - sorts a list using the cocktail
+ * cocktail_sort_list - sorts a list using the cocktail
  * algorithm and prints out the list after each swap
+ * @list: list to sort
  */
 void cocktail_sort_list(listint_t **list)
 {
+	listint_t *list1, *list2, *temp, *store, *store2;
+
+	if (!list || !(*list))
+		return;
+	list1 = *list;
+	list2 = *list;
+	store = NULL;
+	temp = *list;
+
+	for (; list1; list1 = list1->next)
+	{
+		list2 = temp;
+		while (list2 != store)
+		{
+			temp = list2;
+			list2 = list2->next;
+			if (!list2)
+				break;
+			if (temp->n > list2->n)
+			{
+				swap_node(&temp, &list2, list);
+				print_list(*list);
+			}
+		}
+		store = temp;
+		list2 = temp;
+		while (list2 != store2)
+		{
+			temp = list2;
+			list2 = list2->prev;
+			if (!list2)
+				break;
+			if (temp->n < list2->n)
+			{
+				swap_node(&list2, &temp, list);
+				print_list(*list);
+			}
+		}
+		store2 = temp;
+	}
 }

@@ -21,6 +21,26 @@ typedef struct listint_s
 	struct listint_s *next;
 } listint_t;
 
+
+/**
+ * struct array_s - array structure
+ * @bg: pointer to start of array
+ * @end: pointer to end of array
+ * @start: start index of array
+ * @mid: middle index of array
+ * @stop: index of last element in array
+ * @size:size of element
+ */
+typedef struct array_s
+{
+	int *bg;
+	int *end;
+	int start;
+	int mid;
+	int stop;
+	int size;
+} array_t;
+
 /*Default functions*/
 void print_array(const int *array, size_t size);
 void print_list(const listint_t *list);
@@ -48,6 +68,7 @@ void heap_sort(int *array, size_t size);
 void radix_sort(int *array, size_t size);
 void bitonic_sort(int *array, size_t size);
 void quick_sort_hoare(int *array, size_t size);
+void sort_helper(int *array, array_t sup_arr);
 
 
 #endif /*_SORT_H_*/

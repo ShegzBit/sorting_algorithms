@@ -47,8 +47,10 @@ void counting_sort(int *array, size_t size)
 	size_t i, range, j;
 	int max, min, *count;
 
+	
 	if (array == NULL || size < 2)
 		return;
+	
 	counting_array(array, size);
 
 	max = array[0];

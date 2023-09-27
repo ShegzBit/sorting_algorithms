@@ -1,7 +1,8 @@
 #include "sort.h"
 
 #define _arr sup_arr
-#define sup_bg(idx) sup_arr.bg[idx]
+#define RIGHT(x) right.bg[x]
+#define LEFT(x) left.bg[x]
 
 
 /**
@@ -11,13 +12,38 @@
  * @right: right sub array to merge
  * @space: extra space for merging
  */
-void merge(array_t sup_arr, array_t left, array_t right,
+array_t merge(array_t sup_arr, array_t left, array_t right,
 		int *space)
 {
-	(void)sup_arr;
-	(void)left;
-	(void)right;
-	(void)space;
+	/*Macro RIGHT(x) evaluates to right.bg[x] for ease of type*/
+	/*Macro LEFT(x) evaluates to left.bg[x] for ease of type*/
+	int l_idx = 0, r_idx = 0, i = sup_arr.start;
+	array_t spaces;
+
+	print_merge(left, right);
+	while (r_idx <= right.stop && l_idx <= left.stop)
+	{
+		if (RIGHT(r_idx) < LEFT(l_idx))
+		{
+			space[i++] = RIGHT(r_idx++);
+		}
+		else
+		{
+			space[i++] = LEFT(l_idx++);
+		}
+	}
+	while (l_idx <= left.stop)
+	{
+		space[i++] = LEFT(l_idx++);
+	}
+	while (r_idx <= right.stop)
+	{
+		space[i++] = RIGHT(r_idx++);
+	}
+	spaces = create_array(space, i, sup_arr.start);
+	print_merge(spaces, create_array(NULL, 0, 0));
+
+	return (spaces);
 }
 
 /**
@@ -25,34 +51,25 @@ void merge(array_t sup_arr, array_t left, array_t right,
  * @array: new array space for merging
  * @sup_arr: array to merge
  */
-void sort_helper(array_t sup_arr, int *space)
+array_t sort_helper(array_t sup_arr, int *space)
 {
 	/*note macro of sup_arr = _arr definition at top*/
-	int size = sup_arr.end - sup_arr.start + 1;
+	int size = sup_arr.stop - sup_arr.start + 1;
 	int l_stop = sup_arr.mid, l_start = sup_arr.start;
-	int l_mid = (l_start + l_stop) / 2;
 	int l_size = l_stop - l_start + 1;
-	int r_stop = sup_arr.stop, r_start = sup_arr.mid + 1;
-	int r_mid = (r_start + r_stop) / 2;
-	int r_size = l_stop + l_start + 1;
+	int r_start = sup_arr.mid + 1, r_stop = sup_arr.stop;
+	int r_size = r_stop - r_start + 1;
 	array_t sub_left, sub_right, left, right;
 
 	if (size == 1)
 		return (sup_arr);
-	sub_left = {
-		sup_arr.bg + l_start, sup_arr.bg + l_end,
-		l_start, l_mid, l_stop, l_size
-	};
+	sub_left = create_array(sup_arr.bg, l_size, l_start);
+	sub_right = create_array(sup_arr.bg, r_size, r_start);
 
-	sub_right = {
-		sup_arr.bg + r_start, sup_arr.end, r_start, r_mid,
-		r_stop, r_size;
-	}
+	left = sort_helper(sub_left, space);
+	right = sort_helper(sub_right, space);
 
-	left = sort_helper(space, sub_left);
-	right = sort_helper(space, right);
-
-	merge(sup_arr, left, right, space);
+	return (merge(sup_arr, left, right, space));
 
 }
 
@@ -64,16 +81,56 @@ void sort_helper(array_t sup_arr, int *space)
  */
 void merge_sort(int *array, size_t size)
 {
-	int *space, end;
+	int *space;
+	array_t sup_arr;
 
 	if (!array || size < 2)
 		return;
-	space = malloc(sizeof(int));
+	space = malloc(sizeof(int) * size);
 
-	end = size - 1;
-	array_t sup_arr = {
-		array, array + end, 0, end / 2, end, size
-	};
+	sup_arr = create_array(array, size, 0);
 
-	sort_helper(space, array);
+	sort_helper(sup_arr, space);
+}
+
+array_t create_array(int *array, int size, int start)
+{
+	array_t new_array = {NULL, NULL, 0, 0, 0, 0};
+	int stop, mid;
+
+	if (!array)
+		return new_array;
+	stop = start + size - 1;
+	mid = (start + stop) / 2;
+
+	new_array.bg = array + start;
+	new_array.end = array + stop;
+	new_array.start = start;
+	new_array.mid = mid;
+	new_array.stop = stop;
+	new_array.size = size;
+
+	return new_array;
+}
+
+
+/**
+ * print_merge - prints arrays beivng merge to screen
+ * @left: array to the left or main array to print
+ * when done if right is NULL
+ * @right: array to the right
+ */
+void print_merge(array_t left, array_t right)
+{
+	if(!right.bg)
+	{
+		printf("[Done]: ");
+		print_array(left.bg, left.size);
+		return;
+	}
+	printf("Merging...\n");
+	printf("[left]: ");
+	print_array(left.bg, left.size);
+	printf("[right]: ");
+	print_array(right.bg, right.size);
 }

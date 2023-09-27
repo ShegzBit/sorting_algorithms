@@ -68,7 +68,11 @@ void heap_sort(int *array, size_t size);
 void radix_sort(int *array, size_t size);
 void bitonic_sort(int *array, size_t size);
 void quick_sort_hoare(int *array, size_t size);
-void sort_helper(int *array, array_t sup_arr);
+array_t sort_helper(array_t sup_arr, int *space);
+array_t merge(array_t sup_arr, array_t left, array_t right,
+                int *space);
+array_t create_array(int *array, int size, int start);
+void print_merge(array_t left, array_t right);
 
 
 #endif /*_SORT_H_*/

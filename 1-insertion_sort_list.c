@@ -51,10 +51,13 @@ void swap_prev(listint_t **store, listint_t **temp, listint_t **list)
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *ptr = *list, *temp, *store;
+	listint_t *ptr, *temp, *store;
 
+	if (!list)
+		return;
 	if (*list == NULL || !(*list)->next)
 		return;
+	ptr = *list;
 	while (ptr)
 	{
 		if (ptr->next && ptr->next->n < ptr->n)

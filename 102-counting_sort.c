@@ -50,9 +50,8 @@ void counting_sort(int *array, size_t size)
 	
 	if (array == NULL || size < 2)
 		return;
-	
-	counting_array(array, size);
 
+	counting_array(array, size);
 	max = array[0];
 	min = array[0];
 

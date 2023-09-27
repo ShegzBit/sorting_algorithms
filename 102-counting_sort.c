@@ -50,11 +50,9 @@ void counting_sort(int *array, size_t size)
 	
 	if (array == NULL || size < 2)
 		return;
-
 	counting_array(array, size);
 	max = array[0];
 	min = array[0];
-
 	for (i = 0; i < size; i++)
 	{
 		if (array[i] > max)
@@ -66,13 +64,10 @@ void counting_sort(int *array, size_t size)
 	count = malloc(sizeof(int) * range);
 	if (count == NULL)
 		return;
-
 	for (i = 0; i < range; i++)
 		count[i] = 0;
-
 	for (i = 0; i < size; i++)
 		count[array[i] - min]++;
-
 	j = 0;
 	for (i = min; i <= (size_t)max; i++)
 	{

@@ -34,10 +34,7 @@ typedef struct listint_s
 typedef struct array_s
 {
 	int *bg;
-	int *end;
-	int start;
 	int mid;
-	int stop;
 	int size;
 } array_t;
 
